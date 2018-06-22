@@ -1,4 +1,4 @@
-           # Steam Summer Sales 2018 - Minigame Bot Script
+           #Steam Summer Sales 2018 - Minigame Bot Script
           
                              #HowToUse
      1- Run Google Chrome, login in steam & open the MiniGame in Google Chrome.
