@@ -8,36 +8,31 @@
     gServer.RepresentClan(gID, function(response){}, function(){console.log("Error on representing.");});
     // infinity loop
     setInterval(function(){
-        // zone selection screen
-        if ( typeof gGame.m_State.m_LeaveButton !== 'undefined') {
-            for ( var diffCounter = 1; diffCounter <= 3; diffCounter++ ) { // hard, medium, easy
-                for ( var zoneCounter = 0; zoneCounter < 96; zoneCounter++ ) {
-                    if ( !gGame.m_State.m_PlanetData.zones[zoneCounter].captured &&
-                          gGame.m_State.m_PlanetData.zones[zoneCounter].difficulty >= diffCounter ) {
-                        gServer.JoinZone(
-                            zoneCounter,
-                            function ( results ) {
+        // Zone selection screen
+        if (typeof gGame.m_State.m_LeaveButton !== 'undefined') {
+            for (var diffCounter = 1; diffCounter <= 3; diffCounter++ ) {
+                for (var zoneCounter = 0; zoneCounter < 96; zoneCounter++ ) {
+                    if (!gGame.m_State.m_PlanetData.zones[zoneCounter].captured && gGame.m_State.m_PlanetData.zones[zoneCounter].difficulty >= diffCounter ) {
+                        gServer.JoinZone(zoneCounter, function ( results ) {
                                 gGame.ChangeState( new CBattleState( gGame.m_State.m_PlanetData, zoneCounter ) );
-                            },
-                            GameLoadError
-                        );
+                            }, GameLoadError);
                         return;
                     }
                 }
             }
         }
         // kill enemies
-        if ( typeof gGame.m_State.m_EnemyManager !== 'undefined' ) {
+        if (typeof gGame.m_State.m_EnemyManager !== 'undefined' ) {
             gGame.m_State.m_EnemyManager.m_rgEnemies.forEach( function( enemy ) {
                 enemy.Die( true );
             });
         }
         // zone completion screen
-        if ( typeof gGame.m_State.m_VictoryScreen !== 'undefined' ) {
-            if ( gGame.m_State.m_VictoryScreen.getChildAt(1).visible || stuck >= maxStuck ) { // 'Continue' button
+        if (typeof gGame.m_State.m_VictoryScreen !== 'undefined' ) {
+            if (gGame.m_State.m_VictoryScreen.getChildAt(1).visible || stuck >= maxStuck) { // 'Continue' button
                 gamesDone++; stuck = 0;
                 console.log("Finished Sectors: " + gamesDone);
-                gGame.ChangeState( new CBattleSelectionState( gGame.m_State.m_PlanetData.id ) );
+                gGame.ChangeState(new CBattleSelectionState(gGame.m_State.m_PlanetData.id));
             }
             else {
               stuck++;
